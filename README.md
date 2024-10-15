@@ -3,6 +3,8 @@
 
 **Python Control and Mathematical Library for Robotic Arms**
 
+This project aims to create a Python library that simplifies the process of modeling and controlling two-link robotic arms. It incorporates mathematical models and control theory techniques to ensure both precision and stability. The library will serve as both a tool for developing robotic systems and a learning resource for others.
+
 ***Refer to [2LinkPlanar Research Notes.pdf](https://github.com/manuelmort/TwoLinkPlanar/blob/main/2LinkPlanar%20Research%20Notes.pdf) for current updates on my project***
 
 ### Kinematics
@@ -34,4 +36,7 @@ Roger W. Brockett - Finite Dimensional Linear Systems (Decision & Control) (1970
 Robot Modeling and Control 2nd Eidition by Mark W. Spong | Seth Hutchinson | M. Vidyasagar
 
 
+## Future Development
 
+ - Expansion to Complex Robotic Arms: Extend the library to handle more sophisticated systems, including robotic arms with more than two links.
+ - Provide examples and tutorials to help others understand the mathematical models and control systems used in robotic arm development.
