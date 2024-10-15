@@ -15,10 +15,6 @@ $$\theta_{1} = \tan^{-1}\left(\frac{y}{x}\right) - \tan^{-1}\left(\frac{a_{2} \s
 
 **Simplification of Equations**: The Lagrangian method reduces the complexity of the motion equations by focusing on energy differences rather than forces. This is especially useful in systems like a two-link robotic arm where multiple forces and torques interact.
 
-### Optimization
-- Implementing Optimization Simplex Algorithm
-
-
 ## Resources
 
 ### Articles
@@ -26,3 +22,16 @@ $$\theta_{1} = \tan^{-1}\left(\frac{y}{x}\right) - \tan^{-1}\left(\frac{a_{2} \s
 
 
 [A Two-Link Robot Manipulator: Simulation and Control Design](https://www.vibgyorpublishers.org/content/ijre/ijre-5-028.pdf)
+
+## Textbooks
+
+
+### Control
+Friedland, Bernard - Control System Design - An Introduction to State-Space --- 1986 -- Dover Publications 
+
+Roger W. Brockett - Finite Dimensional Linear Systems (Decision & Control) (1970)
+
+Robot Modeling and Control 2nd Eidition by Mark W. Spong | Seth Hutchinson | M. Vidyasagar
+
+
+
