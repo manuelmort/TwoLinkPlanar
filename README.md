@@ -1,13 +1,15 @@
-# Two Link Planar Arm Python Library
+# Robotic Arm Toolbox Python Library
 ## Goal of the project
 
 **Python Control and Mathematical Library for Robotic Arms**
 
-This project aims to create a Python library that simplifies the process of modeling and controlling two-link robotic arms. It incorporates mathematical models and control theory techniques to ensure both precision and stability. The library will serve as both a tool for developing robotic systems and a learning resource for others.
+This project aims to create a Python library that simplifies the process of modeling and controlling two-link robotic arms. It incorporates mathematical models and control theory techniques to ensure both precision and stability. This library's purpose is to help develop a foundational understanding and create a versatile tool for simulating robotic arms. Starting with a basic 2-link planar arm, to 3-axis.
 
 ***Refer to [2LinkPlanar Research Notes.pdf](https://github.com/manuelmort/TwoLinkPlanar/blob/main/2LinkPlanar%20Research%20Notes.pdf) for current updates on my project***
 
 ### Kinematics
+
+#### Two Link Inverse Kinematic Equations
 $$ \theta_{2} = -\cos^{-1} \left( \frac{x^{2} + y^{2} - a_{1}^{2} - a_{2}^{2}}{2a_{1}a_{2}} \right) $$
 $$\theta_{1} = \tan^{-1}\left(\frac{y}{x}\right) - \tan^{-1}\left(\frac{a_{2} \sin(\theta_{2})}{a_{1} + a_{2} \cos(\theta_{2})}\right)$$
 ### Control

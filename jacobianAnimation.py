@@ -48,23 +48,28 @@ def update(frame):
     xcurr = a1 * np.cos(np.radians(theta1)) + a2 * np.cos(np.radians(theta1 + theta2))
     ycurr = a1 * np.sin(np.radians(theta1)) + a2 * np.sin(np.radians(theta1 + theta2))
 
+    # If we have not reached out destination, compute the new angles
     if abs(xcurr - xf) > epsilon and abs(ycurr - yf) > epsilon:
-        matrix = np.array([[-a1 * np.sin(theta1_rad) - a2 * np.sin(theta1_rad + theta2_rad), -a2 * np.sin(theta1_rad + theta2_rad)],
+        
+        jacobian_matrix = np.array([[-a1 * np.sin(theta1_rad) - a2 * np.sin(theta1_rad + theta2_rad), -a2 * np.sin(theta1_rad + theta2_rad)],
                         [a1 * np.cos(theta1_rad) + a2 * np.cos(theta1_rad + theta2_rad), a2 * np.cos(theta1_rad + theta2_rad)]])
 
-        inverse_matrix = np.linalg.inv(matrix)
+        inverse_matrix = np.linalg.inv(jacobian_matrix)
+
+        # Multiply the 2 matrices to get our new angle
         newAngle = np.dot(inverse_matrix,velocity_matrix)
 
         theta1 += newAngle[0]
         theta2 += newAngle[1]
 
     x_data, y_data = plot_robot_configuration(theta1, theta2, a1, a2)
+    print(x_data,y_data)
     line.set_data(x_data, y_data)
     return line,
 
 ani = FuncAnimation(fig, update, frames=np.arange(0, 100, 2), init_func=init, blit=True, interval=5)
 
-plt.title("2-Link Manipulator - Elbow Down and Elbow Up Configurations")
+plt.title("2-Link Manipulator - Elbow Down ")
 plt.xlabel("X")
 plt.ylabel("Y")
 plt.grid()
