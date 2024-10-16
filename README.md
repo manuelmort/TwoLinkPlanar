@@ -7,6 +7,8 @@ This project aims to create a Python library that simplifies the process of mode
 
 ***Refer to [2LinkPlanar Research Notes.pdf](https://github.com/manuelmort/TwoLinkPlanar/blob/main/2LinkPlanar%20Research%20Notes.pdf) for current updates on my project***
 
+***Control Theory Notes[2LinkPlanar Research Notes.pdf] for current updates on my project***
+
 ### Kinematics
 
 #### Two Link Inverse Kinematic Equations
