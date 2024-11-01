@@ -5,7 +5,7 @@
 
 This project aims to create a Python library that simplifies the process of modeling and controlling two-link robotic arms. It incorporates mathematical models and control theory techniques to ensure both precision and stability. This library's purpose is to help develop a foundational understanding and create a versatile tool for simulating robotic arms. Starting with a basic 2-link planar arm, to 3-axis.
 
-***Refer to [2LinkPlanar Research Notes.pdf](https://github.com/manuelmort/TwoLinkPlanar/blob/main/2LinkPlanar%20Research%20Notes.pdf) for current updates on my project***
+***Refer to [Research Notes Directory](https://github.com/manuelmort/TwoLinkPlanar/tree/main/Research%20Notes) for current updates on my project***
 
 ***Control Theory Notes[2LinkPlanar Research Notes.pdf] for current updates on my project***
 
@@ -39,6 +39,8 @@ Roger W. Brockett - Finite Dimensional Linear Systems (Decision & Control) (1970
 
 Robot Modeling and Control 2nd Eidition by Mark W. Spong | Seth Hutchinson | M. Vidyasagar
 
+### Linear Algebra
+A first course in Linear Algebra | Daniel Zelinsky
 
 ## Future Development
 
