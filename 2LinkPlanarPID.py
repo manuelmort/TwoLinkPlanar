@@ -30,27 +30,29 @@ class RobotArmPIDController:
         return tau
 
 def inertia_matrix(theta):
+    # Mass Matrix for 2 Link Manipulator
     m1, m2, L1, L2 = 1.0, 1.0, 1.0, 1.0
-    return np.array([
-        [m1 * L1**2 + m2 * (L1**2 + 2 * L1 * L2 * np.cos(theta[1]) + L2**2), m2 * (L1 * L2 * np.cos(theta[1]) + L2**2)],
+    return np.array([ 
+        [(m1+m2)*L1**2 + 2 * m2 * L1 * L2 * np.cos(theta[1]) + m2*L2**2, m2 * (L1 * L2 * np.cos(theta[1]) + L2**2)],
         [m2 * (L1 * L2 * np.cos(theta[1]) + L2**2), m2 * L2**2]
     ])
 
 def coriolis_matrix(theta, theta_dot):
     m2, L1, L2 = 1.0, 1.0, 1.0
     return np.array([
-        [-m2 * L1 * L2 * np.sin(theta[1]) * theta_dot[1], -m2 * L1 * L2 * np.sin(theta[1]) * (theta_dot[0] + theta_dot[1])],
-        [m2 * L1 * L2 * np.sin(theta[1]) * theta_dot[0], 0]
+        [-m2 * L1 * L2 * np.sin(theta[1]) * theta_dot[1]**2 - 2 * m2 * L1 * L2 * np.sin(theta[1]) * theta_dot[0] * theta_dot[1]],
+        [m2 * L1 * L2 * np.sin(theta[1]) * theta_dot[0]**2]
     ])
 
 def gravity_vector(theta):
+    #Gravity Matrix
     m1, m2, L1, L2, g = 1.0, 1.0, 1.0, 1.0, 9.81
     return np.array([
         (m1 + m2) * L1 * g * np.cos(theta[0]) + m2 * L2 * g * np.cos(theta[0] + theta[1]),
         m2 * L2 * g * np.cos(theta[0] + theta[1])
     ])
 
-# Reduced PID gains for each joint to stabilize the response
+# PID gains for each joint to stabilize the response
 Kp = [5, 5]
 Ki = [0.1, 0.1]
 Kd = [1, 1]
@@ -77,7 +79,7 @@ ax.set_xlim(0, time_steps * dt)
 ax.set_ylim(0, 1.5)
 ax.set_xlabel("Time (s)")
 ax.set_ylabel("Joint 1 Angle (rad)")
-line, = ax.plot([], [], lw=2)
+line, = ax.plot([], [], lw=2, label="Joint 1 Angle")
 target_line = ax.axhline(theta_d[0], color='r', linestyle='--', label="Joint 1 Target")
 ax.legend()
 
