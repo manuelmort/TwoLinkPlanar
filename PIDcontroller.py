@@ -1,89 +1,129 @@
-import time
+import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-class PIDController:
-    def __init__(self, Kp, Ki, Kd, setpoint=0):
-        self.Kp = Kp
-        self.Ki = Ki
-        self.Kd = Kd
-        self.setpoint = setpoint
-        self.integral = 0
-        self.previous_error = 0
-        self.previous_time = time.time()
-
-    def update(self, current_value):
-        error = self.setpoint - current_value
-        current_time = time.time()
-        delta_time = current_time - self.previous_time
-        self.previous_time = current_time
-
-        # Proportional term
-        P = self.Kp * error
+class RobotArmPIDController:
+    def __init__(self, Kp, Ki, Kd, dt=0.01, integral_limit=5):
+        self.Kp = np.array(Kp)
+        self.Ki = np.array(Ki)
+        self.Kd = np.array(Kd)
+        self.dt = dt
+        self.integral_limit = integral_limit
+        self.integral_error = np.zeros(2)
+        self.prev_error = np.zeros(2)
+    
+    def calculate_pid_output(self, error, error_dot):
+        # Update integral term with limit
+        self.integral_error += error * self.dt
+        self.integral_error = np.clip(self.integral_error, -self.integral_limit, self.integral_limit)
         
-        # Integral term
-        self.integral += error * delta_time
-        I = self.Ki * self.integral
-        
-        # Derivative term
-        derivative = (error - self.previous_error) / delta_time if delta_time > 0 else 0
-        D = self.Kd * derivative
-        
-        # Update previous error
-        self.previous_error = error
+        P_term = self.Kp * error
+        I_term = self.Ki * self.integral_error
+        D_term = self.Kd * error_dot
+        return P_term + I_term + D_term
 
-        # Calculate final output
-        output = P + I + D
-        return output
+    def compute_control_torque(self, theta, theta_dot, theta_d, theta_dot_d, theta_ddot_d, M, C, G):
+        error = theta_d - theta
+        error_dot = theta_dot_d - theta_dot
+        pid_output = self.calculate_pid_output(error, error_dot)
+        tau = np.dot(M, theta_ddot_d) + np.dot(C, theta_dot_d) + G + pid_output
+        return tau
 
-# Initialize the PID controller with sample gains
-pid = PIDController(Kp=1.0, Ki=0.1, Kd=0.05, setpoint=10)
+def inertia_matrix(theta):
+    m1, m2, L1, L2 = 1.0, 1.0, 2.0, 1.0
+    return np.array([ 
+        [(m1+m2)*L1**2 + 2 * m2 * L1 * L2 * np.cos(theta[1]) + m2*L2**2, m2 * (L1 * L2 * np.cos(theta[1]) + L2**2)],
+        [m2 * (L1 * L2 * np.cos(theta[1]) + L2**2), m2 * L2**2]
+    ])
+
+def coriolis_matrix(theta, theta_dot):
+    m2, L1, L2 = 1.0, 2.0, 1.0
+    return np.array([
+        [-m2 * L1 * L2 * np.sin(theta[1]) * theta_dot[1], -m2 * L1 * L2 * np.sin(theta[1]) * (theta_dot[0] + theta_dot[1])],
+        [m2 * L1 * L2 * np.sin(theta[1]) * theta_dot[0], 0]
+    ])
+
+def gravity_vector(theta):
+    m1, m2, L1, L2, g = 1.0, 1.0, 2.0, 1.0, 9.81
+    return np.array([
+        (m1 + m2) * L1 * g * np.cos(theta[0]) + m2 * L2 * g * np.cos(theta[0] + theta[1]),
+        m2 * L2 * g * np.cos(theta[0] + theta[1])
+    ])
+
+# PID gains for each joint
+Kp = [30, 30]
+Ki = [20, 20]
+Kd = [15, 10]
+
+controller = RobotArmPIDController(Kp, Ki, Kd, integral_limit=2)
+
+# Desired trajectory
+theta_d = np.array([np.pi / 2, -np.pi / 2])
+theta_dot_d = np.array([0.0, 0.0])
+theta_ddot_d = np.array([0.0, 0.0])
+
+# Initial conditions
+theta = np.array([np.pi / 2, 0.0])
+theta_dot = np.array([0.0, 0.0])
 
 # Simulation parameters
-current_value = 0
-time_steps = 800
-response = []  # Stores current value for plotting
-control_outputs = []  # Stores control output for plotting
+time_steps = 1000
+dt = 0.01
 
-# Set up the real-time plot
-fig, ax = plt.subplots()
-ax.set_xlim(0, time_steps)
-ax.set_ylim(0, 12)  # Adjust based on expected range of response
-line, = ax.plot([], [], label="Current Value", color="blue")
-setpoint_line = ax.axhline(pid.setpoint, color='red', linestyle='--', label="Setpoint")
-ax.legend()
-ax.set_xlabel("Time Steps")
-ax.set_ylabel("Current Value")
+# Set up the figure
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
 
-# Data containers
-time_data = []
-current_value_data = []
+# Configure the first plot for Joint 1
+ax1.set_xlim(0, time_steps * dt)
+ax1.set_ylim(-1, 5)
+ax1.set_xlabel("Time (s)")
+ax1.set_ylabel("Joint 1 Angle (rad)")
+line1, = ax1.plot([], [], lw=2, label="Joint 1 Angle")
+target_line1 = ax1.axhline(theta_d[0], color='r', linestyle='--', label="Joint 1 Target")
+ax1.legend()
+
+# Configure the second plot for Joint 2
+ax2.set_xlim(0, time_steps * dt)
+ax2.set_ylim(-1, -5)
+ax2.set_xlabel("Time (s)")
+ax2.set_ylabel("Joint 2 Angle (rad)")
+line2, = ax2.plot([], [], lw=2, label="Joint 2 Angle")
+target_line2 = ax2.axhline(theta_d[1], color='g', linestyle='--', label="Joint 2 Target")
+ax2.legend()
+
+# Data for real-time plotting
+times = []
+angles1 = []
+angles2 = []
 
 def init():
-    line.set_data([], [])
-    return line,
+    line1.set_data([], [])
+    line2.set_data([], [])
+    return line1, line2
 
 def update(frame):
-    global current_value
+    global theta, theta_dot
+    
+    M = inertia_matrix(theta)
+    C = coriolis_matrix(theta, theta_dot)
+    G = gravity_vector(theta)
+    
+    tau = controller.compute_control_torque(theta, theta_dot, theta_d, theta_dot_d, theta_ddot_d, M, C, G)
+    
+    theta_ddot = np.linalg.inv(M).dot(tau - np.dot(C, theta_dot) - G)
+    theta_dot += theta_ddot * dt
+    theta += theta_dot * dt
+    
+    times.append(frame * dt)
+    angles1.append(theta[0])
+    angles2.append(theta[1])
+    
+    line1.set_data(times, angles1)
+    line2.set_data(times, angles2)
+    return line1, line2
 
-    # Get the control output from the PID controller
-    control_output = pid.update(current_value)
-    control_outputs.append(control_output)
-    
-    # Simulate the system's response (this part would depend on your system)
-    current_value += control_output * 0.1  # Example system response
-    
-    # Update data for plotting
-    time_data.append(frame)
-    current_value_data.append(current_value)
-    
-    # Update line plot
-    line.set_data(time_data, current_value_data)
-    
-    return line,
+ani = FuncAnimation(fig, update, frames=range(time_steps), init_func=init, blit=True, interval=dt*1000)
 
-# Create the animation
-ani = FuncAnimation(fig, update, frames=range(time_steps), init_func=init, blit=True, interval=20)
-
-plt.title("Real-Time PID Controller Response")
+plt.suptitle("Real-Time PID Control of Joint Angles")
+plt.tight_layout()
 plt.show()

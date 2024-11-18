@@ -6,7 +6,7 @@ from matplotlib.animation import FuncAnimation
 a1 = 10
 a2 = 7
 theta1 = 45
-theta2 = 45
+theta2 = 90
 xf = 11
 yf = 10
 t = 10
@@ -68,6 +68,8 @@ def update(frame):
     return line,
 
 ani = FuncAnimation(fig, update, frames=np.arange(0, 100, 2), init_func=init, blit=True, interval=5)
+xf = 15
+yf = 10
 
 plt.title("2-Link Manipulator - Elbow Down ")
 plt.xlabel("X")
