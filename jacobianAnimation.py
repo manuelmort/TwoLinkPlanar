@@ -6,7 +6,7 @@ from matplotlib.animation import FuncAnimation
 a1 = 10
 a2 = 7
 theta1 = 45
-theta2 = 90
+theta2 = 45
 xf = 11
 yf = 10
 t = 10

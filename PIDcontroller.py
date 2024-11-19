@@ -39,7 +39,7 @@ def inertia_matrix(theta):
 def coriolis_matrix(theta, theta_dot):
     m2, L1, L2 = 1.0, 2.0, 1.0
     return np.array([
-        [-m2 * L1 * L2 * np.sin(theta[1]) * theta_dot[1], -m2 * L1 * L2 * np.sin(theta[1]) * (theta_dot[0] + theta_dot[1])],
+        [-m2 * L1 * L2 * np.sin(theta[1]) * theta_dot[1], -m2 * L1 * L2 * np.sin(theta[1]) * theta[0]],
         [m2 * L1 * L2 * np.sin(theta[1]) * theta_dot[0], 0]
     ])
 
@@ -51,24 +51,25 @@ def gravity_vector(theta):
     ])
 
 # PID gains for each joint
-Kp = [30, 30]
+Kp = [25, 25]
 Ki = [20, 20]
 Kd = [15, 10]
 
 controller = RobotArmPIDController(Kp, Ki, Kd, integral_limit=2)
 
 # Desired trajectory
-theta_d = np.array([np.pi / 2, -np.pi / 2])
+theta_d = np.array([np.pi / 2, -np.pi])
 theta_dot_d = np.array([0.0, 0.0])
 theta_ddot_d = np.array([0.0, 0.0])
 
 # Initial conditions
-theta = np.array([np.pi / 2, 0.0])
+theta = np.array([0.0, 0.0])
 theta_dot = np.array([0.0, 0.0])
-
 # Simulation parameters
 time_steps = 1000
 dt = 0.01
+
+epsilon = 0.001
 
 # Set up the figure
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
@@ -104,20 +105,31 @@ def init():
 def update(frame):
     global theta, theta_dot
     
+    # Compute the current dynamics
     M = inertia_matrix(theta)
     C = coriolis_matrix(theta, theta_dot)
     G = gravity_vector(theta)
     
+    # Compute control torque using the PID controller
     tau = controller.compute_control_torque(theta, theta_dot, theta_d, theta_dot_d, theta_ddot_d, M, C, G)
     
+    # Compute joint accelerations and update velocities and positions
     theta_ddot = np.linalg.inv(M).dot(tau - np.dot(C, theta_dot) - G)
     theta_dot += theta_ddot * dt
     theta += theta_dot * dt
     
+    # Check error for stopping condition
+    error = np.abs(theta_d - theta)
+    if np.all(error < epsilon):  # Stop if all errors are below epsilon
+        print("Error below threshold. Stopping animation.")
+        ani.event_source.stop()  # Stop the animation
+        
+    # Append data for plotting
     times.append(frame * dt)
     angles1.append(theta[0])
     angles2.append(theta[1])
     
+    # Update the lines on the plot
     line1.set_data(times, angles1)
     line2.set_data(times, angles2)
     return line1, line2
