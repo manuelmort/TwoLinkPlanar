@@ -2,13 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 from matplotlib.animation import FuncAnimation
+import time
 
 a1 = 10
 a2 = 7
 theta1 = 45
 theta2 = 45
 xf = 11
-yf = 10
+yf = 6
 t = 10
 
 theta1_rad = np.deg2rad(theta1)
@@ -24,6 +25,8 @@ def plot_robot_configuration(theta1_deg, theta2_deg, a1, a2):
     theta1_rad = math.radians(theta1_deg)
     theta2_rad = math.radians(theta2_deg)
     
+    print(f"Theta 1: {theta1_rad}, Theta 2: {theta2_rad}")
+
     x1 = a1 * math.cos(theta1_rad)
     y1 = a1 * math.sin(theta1_rad)
     
@@ -48,6 +51,7 @@ def update(frame):
     xcurr = a1 * np.cos(np.radians(theta1)) + a2 * np.cos(np.radians(theta1 + theta2))
     ycurr = a1 * np.sin(np.radians(theta1)) + a2 * np.sin(np.radians(theta1 + theta2))
 
+    print(xcurr)
     # If we have not reached out destination, compute the new angles
     if abs(xcurr - xf) > epsilon and abs(ycurr - yf) > epsilon:
         
