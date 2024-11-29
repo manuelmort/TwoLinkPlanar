@@ -80,7 +80,7 @@ ax1.set_ylim(-1, 5)
 ax1.set_xlabel("Time (s)")
 ax1.set_ylabel("Joint 1 Angle (rad)")
 line1, = ax1.plot([], [], lw=2, label="Joint 1 Angle")
-target_line1 = ax1.axhline(theta_d[0], color='r', linestyle='--', label="Joint 1 Target")
+target_line1 = ax1.axhline(theta_d[0], linestyle='--', label="Joint 1 Target")
 ax1.legend()
 
 # Configure the second plot for Joint 2
@@ -89,7 +89,7 @@ ax2.set_ylim(-1, -5)
 ax2.set_xlabel("Time (s)")
 ax2.set_ylabel("Joint 2 Angle (rad)")
 line2, = ax2.plot([], [], lw=2, label="Joint 2 Angle")
-target_line2 = ax2.axhline(theta_d[1], color='g', linestyle='--', label="Joint 2 Target")
+target_line2 = ax2.axhline(theta_d[1], linestyle='--', label="Joint 2 Target")
 ax2.legend()
 
 # Data for real-time plotting
