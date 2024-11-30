@@ -24,8 +24,8 @@ theta1d_down, theta2d_down = robot_arm.inverse_kinematics(xf, yf, elbow="down")
 # Dynamics and PID controllers
 dynamics = TwoLinkDynamics(m1=1.0, m2=1.0, l1=l1, l2=l2)
 Kp = [15, 15]
-Ki = [5, 5]
-Kd = [20, 15]
+Ki = [5, 2]
+Kd = [30, 15]
 controller = TwoLinkPIDController(Kp, Ki, Kd, integral_limit=2)
 
 # Initial and desired states
@@ -38,7 +38,7 @@ theta_ddot_d = np.array([0.0, 0.0])
 # Simulation parameters
 dt = 0.05
 time_steps = 500
-epsilon = 0.015
+epsilon = 0.04
 
 # Data for plotting
 times = []
@@ -62,19 +62,22 @@ path_line, = ax1.plot([], [], 'r-', lw=1, label="Path")
 ax1.legend()
 
 # Joint angles plot
-ax2.set_xlim(0, 5)
+ax2.set_xlim(0, time_steps * dt)
 ax2.set_ylim(-np.pi, np.pi)
 ax2.set_title("Joint Angles")
 line_theta1, = ax2.plot([], [], label="Theta1 (rad)")
 line_theta2, = ax2.plot([], [], label="Theta2 (rad)")
+ax2.axhline(theta_d[0], linestyle='--', color='blue', label="Desired Theta1 (rad)")
+ax2.axhline(theta_d[1], linestyle='--', color='orange', label="Desired Theta2 (rad)")
 ax2.legend()
 
 # Control torques plot
 ax3.set_xlim(0, 5)
-ax3.set_ylim(-30, 50)
+ax3.set_ylim(-50, 50)
 ax3.set_title("Control Torques")
 line_tau1, = ax3.plot([], [], label="Torque1 (Nm)")
 line_tau2, = ax3.plot([], [], label="Torque2 (Nm)")
+
 ax3.legend()
 
 # Error plot
