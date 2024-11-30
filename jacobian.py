@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-from twolinkplanar import inverse_kinematics_2link_elbow_up
+from TwoLinkInverse import inverse_kinematics_2link_elbow_up
 
 a1 = 5
 a2 = 4

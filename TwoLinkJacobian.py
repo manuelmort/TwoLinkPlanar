@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import time
 
-class JacobianTwoLinkPlanar:
-    def __init__(self, a1, a2, theta1, theta2, targets, t_per_target):
-        self.a1 = a1
-        self.a2 = a2
+class TwoLinkJacobian:
+    def __init__(self, l1, l2, theta1, theta2, targets, t_per_target):
+        self.l1 = l1
+        self.l2 = l2
         self.theta1 = np.deg2rad(theta1)
         self.theta2 = np.deg2rad(theta2)
         self.targets = targets  # List of (xf, yf) tuples
@@ -35,8 +35,8 @@ class JacobianTwoLinkPlanar:
 
     def update_current_position(self):
         """Update the current position of the end effector."""
-        self.px = self.a1 * np.cos(self.theta1) + self.a2 * np.cos(self.theta1 + self.theta2)
-        self.py = self.a1 * np.sin(self.theta1) + self.a2 * np.sin(self.theta1 + self.theta2)
+        self.px = self.l1 * np.cos(self.theta1) + self.l2 * np.cos(self.theta1 + self.theta2)
+        self.py = self.l1 * np.sin(self.theta1) + self.l2 * np.sin(self.theta1 + self.theta2)
 
     def update_velocity(self):
         """Update velocity for the current target."""
@@ -47,16 +47,16 @@ class JacobianTwoLinkPlanar:
     def jacobian_matrix(self):
         """Compute the Jacobian matrix."""
         return np.array([
-            [-self.a1 * np.sin(self.theta1) - self.a2 * np.sin(self.theta1 + self.theta2), -self.a2 * np.sin(self.theta1 + self.theta2)],
-            [self.a1 * np.cos(self.theta1) + self.a2 * np.cos(self.theta1 + self.theta2), self.a2 * np.cos(self.theta1 + self.theta2)]
+            [-self.l1 * np.sin(self.theta1) - self.l2 * np.sin(self.theta1 + self.theta2), -self.l2 * np.sin(self.theta1 + self.theta2)],
+            [self.l1 * np.cos(self.theta1) + self.l2 * np.cos(self.theta1 + self.theta2), self.l2 * np.cos(self.theta1 + self.theta2)]
         ])
 
     def plot_robot_configuration(self, theta1, theta2):
         """Calculate and return the manipulator configuration."""
-        x1 = self.a1 * np.cos(theta1)
-        y1 = self.a1 * np.sin(theta1)
-        x2 = x1 + self.a2 * np.cos(theta1 + theta2)
-        y2 = y1 + self.a2 * np.sin(theta1 + theta2)
+        x1 = self.l1 * np.cos(theta1)
+        y1 = self.l1 * np.sin(theta1)
+        x2 = x1 + self.l2 * np.cos(theta1 + theta2)
+        y2 = y1 + self.l2 * np.sin(theta1 + theta2)
         return [0, x1, x2], [0, y1, y2]
 
     def init_plot(self):
@@ -109,7 +109,3 @@ class JacobianTwoLinkPlanar:
         plt.grid()
         plt.show()
 
-# Example usage
-targets = [(10, 8.0), (10, 10.9), (12, 10.9), (12, 8.2), (10, 8.2)]  # List of targets
-manipulator = JacobianTwoLinkPlanar(a1=10, a2=7, theta1=45, theta2=45, targets=targets, t_per_target=350)
-manipulator.animate()
