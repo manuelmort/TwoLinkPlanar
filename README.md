@@ -22,7 +22,7 @@ $$\theta_{1} = \tan^{-1}\left(\frac{y}{x}\right) - \tan^{-1}\left(\frac{a_{2} \s
 **Simplification of Equations**: The Lagrangian method reduces the complexity of the motion equations by focusing on energy differences rather than forces. This is especially useful in systems like a two-link robotic arm where multiple forces and torques interact.
 
 ### Example of Library Usage
-`import numpy as np
+```import numpy as np
 from TwoLinkAnimation import TwoLinkAnimation
 from ThreeDOFJacobian import ThreeDOFJacobian
 #Example Code
@@ -74,7 +74,7 @@ manipulator = ThreeDOFJacobian(
 
 # Run the animation
 manipulator.animate()
-`
+```
 
 ## Resources
 
