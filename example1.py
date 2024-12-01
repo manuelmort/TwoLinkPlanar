@@ -10,10 +10,13 @@ xf, yf = 2.0, 2.0
 m1 = 1.0
 m2 = 1.0
 
-#TwoLinkAnimation(l1,l2,x,y,xf,yf,m1,m2)
+#TwoLinkAnimation(l1,l2,x,y,xf,yf,m1,m2) 
 TwoLinkSimulation = TwoLinkAnimation(l1=l1,l2 =l2,x=x,y=y,xf=xf,yf=yf,m1=m1,m2=m2)
+#
+#
 #TwoLinkSimulation.animate()
 
+#Defining Targets for 3DOF Robot Arm (In This example, the arm will be drawing a cube)
 targets = [
     (9, 9, 9),  # Starting point
     (9, 12, 9),  # Move to top-left front
