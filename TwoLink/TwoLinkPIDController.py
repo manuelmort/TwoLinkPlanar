@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from TwoLinkDynamics import TwoLinkDynamics
+from TwoLink.TwoLinkDynamics import TwoLinkDynamics
 
 class TwoLinkPIDController:
     def __init__(self, Kp, Ki, Kd, dt=0.01, integral_limit=5):

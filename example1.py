@@ -1,6 +1,6 @@
 import numpy as np
-from TwoLinkAnimation import TwoLinkAnimation
-from ThreeDOFJacobian import ThreeDOFJacobian
+from TwoLink.TwoLinkAnimation import TwoLinkAnimation
+from ThreeDOF.ThreeDOFJacobian import ThreeDOFJacobian
 #Example Code
 
 #Declare Link Lenghts

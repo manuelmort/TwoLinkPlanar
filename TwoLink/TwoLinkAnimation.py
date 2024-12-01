@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
 # Example usage of TwoLink classes
-from TwoLinkInverse import TwoLinkInverse
-from TwoLinkJacobian import TwoLinkJacobian
-from TwoLinkDynamics import TwoLinkDynamics
-from TwoLinkPIDController import TwoLinkPIDController
+from TwoLink.TwoLinkInverse import TwoLinkInverse
+#from TwoLink.TwoLinkJacobian import TwoLinkJacobian
+from TwoLink.TwoLinkDynamics import TwoLinkDynamics
+from TwoLink.TwoLinkPIDController import TwoLinkPIDController
 
 
 class TwoLinkAnimation:
