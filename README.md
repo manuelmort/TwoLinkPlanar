@@ -1,4 +1,6 @@
 # Robotic Arm Toolbox Python Library
+![Robotic Arm Diagram](ArmPyLogo.pngpng "2-Link Robotic Arm Dynamics")
+
 ## Goal of the project
 
 **Python Control and Mathematical Library for Robotic Arms**

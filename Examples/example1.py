@@ -14,7 +14,7 @@ m2 = 1.0
 TwoLinkSimulation = TwoLinkAnimation(l1=l1,l2 =l2,x=x,y=y,xf=xf,yf=yf,m1=m1,m2=m2)
 #
 #
-TwoLinkSimulation.animate()
+#TwoLinkSimulation.animate()
 
 #Defining Targets for 3DOF Robot Arm (In This example, the arm will be drawing a cube)
 targets = [
@@ -49,4 +49,4 @@ manipulator = ThreeDOFJacobian(
 )
 
 # Run the animation
-#manipulator.animate()
+manipulator.animate()
