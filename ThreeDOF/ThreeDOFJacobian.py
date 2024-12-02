@@ -34,7 +34,7 @@ class ThreeDOFJacobian:
         # Setup plot
         self.fig = plt.figure(figsize=(10, 8))
         self.ax = self.fig.add_subplot(111, projection='3d')
-        self.line, = self.ax.plot([], [], [], '-o', markersize=8)  # Robot arm
+        self.line, = self.ax.plot([], [], [], '-o',color="black", markersize=8)  # Robot arm
         self.path_line, = self.ax.plot([], [], [], 'r-', lw=1.5)  # Path trace
 
     def update_current_position(self):

@@ -1,6 +1,7 @@
 import numpy as np
 from TwoLink.TwoLinkAnimation import TwoLinkAnimation
 from ThreeDOF.ThreeDOFJacobian import ThreeDOFJacobian
+from TwoLink.TwoLinkLogAnimation import TwoLinkLogAnimation
 #Example Code
 
 #Declare Link Lenghts
@@ -11,7 +12,7 @@ m1 = 1.0
 m2 = 1.0
 
 #TwoLinkAnimation(l1,l2,x,y,xf,yf,m1,m2) 
-TwoLinkSimulation = TwoLinkAnimation(l1=l1,l2 =l2,x=x,y=y,xf=xf,yf=yf,m1=m1,m2=m2)
+TwoLinkSimulation = TwoLinkLogAnimation(l1=l1,l2 =l2,x=x,y=y,xf=xf,yf=yf,m1=m1,m2=m2)
 #
 #
 TwoLinkSimulation.animate()
