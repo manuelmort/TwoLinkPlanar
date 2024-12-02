@@ -1,5 +1,6 @@
 # Robotic Arm Toolbox Python Library
-![Robotic Arm Diagram](ArmPyLogo.png "2-Link Robotic Arm Dynamics")
+<img src="ArmPyLogo.png" alt="Robotic Arm Diagram" title="2-Link Arm" width="200">
+
 
 ## Goal of the project
 
