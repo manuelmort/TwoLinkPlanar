@@ -1,6 +1,7 @@
-# Robotic Arm Toolbox Python Library
-<img src="ArmPyLogo.png" alt="Robotic Arm Diagram" title="2-Link Arm" width="200">
-
+# ArmPy Robotic Arm Toolbox Python Library
+<span style="display: inline-block; text-align: right; float: right;">
+    <img src="ArmPyLogo.png" alt="Robotic Arm Diagram" title="2-Link Arm" width="200">
+</span>
 
 ## Goal of the project
 
