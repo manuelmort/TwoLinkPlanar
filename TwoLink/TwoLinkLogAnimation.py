@@ -31,7 +31,7 @@ class TwoLinkLogAnimation:
         # Simulation parameters
         self.dt = 0.05
         self.time_steps = 500
-        self.epsilon = 0.04
+        self.epsilon = 0.0001
 
         # Compute initial and desired joint angles
         self.theta1_down, self.theta2_down = self.robot_arm.inverse_kinematics(self.x, self.y, elbow="down")
@@ -97,7 +97,7 @@ class TwoLinkLogAnimation:
         error2 = self.theta_d[1] - self.theta[1]
 
         # Stop the animation if joint errors are below the threshold
-        if abs(error1) < self.epsilon and abs(error2) < self.epsilon:
+        if (abs(error1) < self.epsilon and abs(error2) < self.epsilon) or (error1 < 0 and error2 > 0):
             print(f"Animation stopped at frame {frame} as joint errors are minimal.")
             self.ani.event_source.stop()
 
