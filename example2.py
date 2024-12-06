@@ -2,6 +2,7 @@ import numpy as np
 from TwoLink.TwoLinkAnimation import TwoLinkAnimation
 from ThreeDOF.ThreeDOFJacobian import ThreeDOFJacobian
 from TwoLink.TwoLinkLogAnimation import TwoLinkLogAnimation
+from TwoLink.TwoLinkPDAnimation import TwoLinkPDAnimation
 #Example Code
 
 #Declare Link Lenghts
@@ -16,6 +17,7 @@ TwoLinkSimulation = TwoLinkLogAnimation(l1=l1,l2 =l2,x=x,y=y,xf=xf,yf=yf,m1=m1,m
 #
 #
 TwoLinkSimulation.animate()
+
 
 #Defining Targets for 3DOF Robot Arm (In This example, the arm will be drawing a cube)
 targets = [

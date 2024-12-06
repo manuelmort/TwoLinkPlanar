@@ -6,7 +6,7 @@ from matplotlib.animation import FuncAnimation
 from TwoLink.TwoLinkInverse import TwoLinkInverse
 #from TwoLink.TwoLinkJacobian import TwoLinkJacobian
 from TwoLink.TwoLinkDynamics import TwoLinkDynamics
-from TwoLink.TwoLinkPIDController import TwoLinkPIDController
+from Controllers.PIDController import PIDController
 
 
 class TwoLinkAnimation:
@@ -29,7 +29,7 @@ class TwoLinkAnimation:
         Kp = [15, 15]
         Ki = [5, 2]
         Kd = [30, 15]
-        self.controller = TwoLinkPIDController(Kp, Ki, Kd, integral_limit=2)
+        self.controller = PIDController(Kp, Ki, Kd, integral_limit=2)
 
         # Simulation parameters
         self.dt = 0.05
