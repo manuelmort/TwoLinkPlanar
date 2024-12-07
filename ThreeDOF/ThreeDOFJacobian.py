@@ -135,7 +135,7 @@ class ThreeDOFJacobian:
 
     def animate(self):
         """Run the animation."""
-        ani = FuncAnimation(self.fig, self.update_plot, frames=np.arange(0, 1000), init_func=self.init_plot, blit=True, interval=20)  # Slower animation interval
+        ani = FuncAnimation(self.fig, self.update_plot, frames=np.arange(0, 1000), init_func=self.init_plot, blit=True, interval=10)  # Slower animation interval
         plt.show()
 
 # Example usage
